@@ -40,7 +40,7 @@ header_signup_link: "https://www.wiremock.io/cloud-overview?utm_source=wiremock.
       * Supports Java, Python, HTTP & JSON file APIs
   * types
     * 's core engine
-      * ways to use it
+      * 👀ways to use it -- see [here](_includes/downloads.md) --👀
         * embed | your test code
         * run -- as a -- standalone process
         * deploy -- via -- Docker
