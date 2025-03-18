@@ -13,3 +13,7 @@
 ## License
 
 * [MIT License](./LICENSE)
+
+## Community
+
+* Slack
