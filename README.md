@@ -10,8 +10,15 @@
     * fontawesome
     * [notify.js](https://notifyjs.jpillora.com/)
 
-## License
+## Documentation
+* [docs](_docs)
 
+## Related resources
+* [Mock API Templates Library](_docs/mock-api-templates.md)
+* [WireMock Ecosystem](https://github.com/wiremock/ecosystem)
+* [External resources](external-resources)
+
+## License
 * [MIT License](./LICENSE)
 
 ## Community
