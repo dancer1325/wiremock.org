@@ -5,7 +5,11 @@ meta_title: Using WireMock's Spring Boot + JUnit 5 integration | WireMock
 description: Integrating WireMock, Spring Boot and JUnit 5 via the official integration library.
 ---
 
-WireMock's Spring Boot integration provides a simple, declarative way to configure and run one or more WireMock instances their JUnit tests.
+* WireMock's Spring Boot integration
+  * allows 
+    * configure & run >=1 WireMock instances | JUnit tests
+    * simple,
+    * declarative 
 
 ## Installation
 
@@ -23,87 +27,36 @@ Gradle:
 implementation 'org.wiremock.integrations:wiremock-spring-boot:{{ site.spring_boot_integration_version }}'
 ```
 
-## Basic usage
+## How to use?
 
-The integration is enabled by adding the `@EnableWireMock` annotation to your test class.
+* 💡add `@EnableWireMock` | your test class 💡
+  * -> properties / set, by default, | Spring context
+    * `wiremock.server.baseUrl`
+      * == WireMock server's base URL
+    * `wiremock.server.port`
+      * == WireMock server's HTTP port
+* _Example:_ [here](https://github.com/dancer1325/wiremock-spring-boot/blob/main/src/test/java/usecases/ExampleTests.java)
 
-```java
-@SpringBootTest(classes = ExamplesTests.AppConfiguration.class)
-@EnableWireMock
-class ExampleTests {
+## How to customize the configuration?
+* 💡use `@ConfigureWireMock` 💡 
+### Declarative
 
-  @Value("${wiremock.server.baseUrl}")
-  private String wireMockUrl;
-
-  @Test
-  void returns_a_ping() {
-    stubFor(get("/ping").willReturn(ok("pong")));
-
-    RestClient client = RestClient.create();
-    String body = client.get()
-            .uri(wireMockUrl + "/ping")
-            .retrieve()
-            .body(String.class);
-
-    assertThat(body, is("pong"));
-  }
-
-  @SpringBootApplication
-  static class AppConfiguration {}
-}
-```
-
-### Injected properties
-
-The example above will start a WireMock instance with a sensible set of defaults and set the following properties in the Spring context:
-
-- `wiremock.server.baseUrl` - Base URL of WireMock server.
-- `wiremock.server.port` - HTTP port of WireMock server.
-
-These property names can be changed as follows:
-
-```java
-@EnableWireMock(
-    @ConfigureWireMock(
-        baseUrlProperties = { "customUrl", "sameCustomUrl" },
-        portProperties = "customPort"
-))
-class CustomPropertiesTest {
-
- @Value("${customUrl}")
- private String customUrl;
-
- @Value("${sameCustomUrl}")
- private String sameCustomUrl;
-
- @Value("${customPort}")
- private String customPort;
-
- // ...
-}
-```
-
-
-## Declarative configuration
-A number of WireMock's common configuration values can be overridden via the `@ConfigureWireMock` annotation, which is used as follows:
-
-```java
-@EnableWireMock({
-  @ConfigureWireMock(
-      name = "my-mock",
-      port = 8888)
-})
-```
-
-This currently supports the following config items:
-
-* `port`: the HTTP port number. Defaults to 0 i.e. random.
-* `httpsPort`: the HTTPS port number. Defaults to 0 i.e. random.
-* `name`: the WireMock instance name. It is usually a good idea to set this when running multiple WireMock instances. Defaults to `wiremock`.
+* `port`
+  * == HTTP port number
+    * by default, it's random
+* `httpsPort`
+  * == HTTPS port number
+    * by default, it's random
+* `name`
+  * == WireMock instance name
+    * by default, `wiremock`
+    * if you run MULTIPLE WireMock instances -> recommended to set it 
 * `usePortFromPredefinedPropertyIfFound`: if true, take the port number from the Spring configuration. Defaults to false.
-* `portProperties`: Overrides for the HTTP port property name.
+* `portProperties`
+  * -- overrides -- HTTP port property name
 * `httpsPortProperties`: Overrides for the HTTPS port property name.
-* `baseUrlProperties`: Overrides for the HTTP base URL property name.
+* `baseUrlProperties`
+  * -- overrides -- HTTP base URL property name
 * `httpsBaseUrlProperties`: Overrides for the HTTPS base URL property name.
 * `filesUnderClasspath`: Classpath root that will be used as the WireMock instance's file source. See [Customizing the mappings directory](#customizing-the-mappings-directory) for details.
 * `filesUnderDirectory`: File root that will be used as the WireMock instance's file source. See [Customizing the mappings directory](#customizing-the-mappings-directory) for details.
@@ -111,9 +64,10 @@ This currently supports the following config items:
 * `extensionFactories`: WireMock extension factories to be loaded, specified as class names.
 * `configurationCustomizers`: Customizer classes to be applied to the configuration object passed to the WireMock instance on construction. See [Programmatic configuration](#programmatic-configuration) for details.
 
+* _Example:_ [here](https://github.com/dancer1325/wiremock-spring-boot/blob/main/src/test/java/usecases/ExampleConfigurationDeclarativeTests.java)
 
-
-## Programmatic configuration
+### Programmatic
+* TODO:
 If full control over the WireMock server's configuration is needed you can supply a customizer class that can call methods directly on the
 WireMock configuration object.
 
